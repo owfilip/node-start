@@ -4,7 +4,8 @@ console.log('Conditional replacements');
 interface Product {
   name: string,
   price: number,
-  size: 'small' | 'medium' | 'large' | 'x-large' | 'xx-large'
+  size: 'small' | 'medium' | 'large' | 'x-large' | 'xx-large',
+  address? :{ street: string }
 }
 
 // *** Task ***
@@ -35,7 +36,7 @@ const calculateMedium = (product: Product) => { return { ...product, price: prod
 const calculateLarge = (product: Product) => { return { ...product, price: product.price * 1.3 } }
 const calculateOther = (product: Product) => { return { ...product, price: product.price * 1.4 } }
 
-const taxMap: { [key: string]: Function } = {
+const taxMap: { [key: string]: (p: Product) => Product } = {
   'small': calculateSmall,
   'medium': calculateMedium,
   'large': calculateLarge
@@ -47,10 +48,11 @@ function calculateSolution(product: Product): Product {
 
 
 
-let p1: Product = {name: 'Coffee', price: 200, size: 'medium' };
+let p1: Product = {name: 'Coffee', price: 200, size: 'medium', address: { street: 'Dworcowa 1 '} };
 console.log('Initial');
 console.log(p1);
 console.log(calculateTax(p1));
+if (p1.address?.street) { p1.address.street = 'Gruwaldzka' };
 console.log(p1);
 
 let p2: Product = {name: 'Coffee', price: 200, size: 'medium' };
